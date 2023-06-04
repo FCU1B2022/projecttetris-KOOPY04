@@ -373,7 +373,7 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
     if (linesCleared > 0) {
         // 播放音效
-        PlaySound(TEXT("music / eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
+        PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
         PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
     }
 
