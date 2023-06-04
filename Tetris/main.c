@@ -26,6 +26,11 @@
 #define CANVAS_WIDTH 10
 #define CANVAS_HEIGHT 20
 
+#define MUSIC_STOP NULL 
+
+#define red "\033[0;31m"
+#define original "\033[m"
+
 typedef enum {
     RED = 41,
     GREEN,
@@ -368,7 +373,8 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
     if (linesCleared > 0) {
         // 播放音效
-        PlaySound("C:\Users\sir\source\repos\ProjectDino\ProjectDino\109662__grunz__success.wav", NULL, SND_SYNC | SND_FILENAME);
+        PlaySound(TEXT("music / eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
+        PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
     }
 
 
@@ -400,6 +406,18 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
 
     return linesCleared;
+}
+
+void print_ascii_art()
+{
+    printf(red "  ####      ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
+    printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
+    printf(red " ##       ##  ##   #######  ##                ##  ##   ##  ##   ##       ##  ##\n");
+    printf(red " ## ###   ######   ## # ##  ####              ##  ##   ##  ##   ####     #####\n");
+    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##   ##  ##   ##       ####\n");
+    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
+    printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
+    printf(original);
 }
 
 void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
@@ -437,7 +455,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
         }
 
         if (gameOver) {
-            printf("\033[%d;%dH\x1b[41m GAME OVER \x1b[0m\033[%d;%dHFinal Score: %d\n", CANVAS_HEIGHT + 2, 0, CANVAS_HEIGHT + 4, 0, state->score);
+            print_ascii_art();
             return;
         }
         if (ROTATE_FUNC()) {
