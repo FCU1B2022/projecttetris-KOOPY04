@@ -387,9 +387,10 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
         if (isFull) {
             linesCleared += 1;
-            if (linesCleared > 0) {
+            if (linesCleared > 0)
+            {
                 // 播放音效
-                PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
+                PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
                 PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
             }
             for (int j = i; j > 0; j--)
@@ -400,6 +401,9 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
                     resetBlock(&canvas[j - 1][k]);
                 }
             }
+
+            
+
             i++;
         }
     }
@@ -449,12 +453,12 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                     }
                 }
             }
-            if (gameOver == 1) {
+            if (gameOver) {
                 break;
             }
         }
 
-        if (gameOver == 1) {
+        if (gameOver) {
             return;
         }
         if (ROTATE_FUNC()) {
@@ -506,7 +510,8 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 
                 if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
                 {
-                    PlaySound(TEXT("musics/dead_sound.wav"), NULL, SND_SYNC | SND_FILENAME);   // 播放死掉結束的音效
+                    PlaySound(TEXT("music/to/die_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
+                    // 播放死掉結束的音效
                     PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
                     system("cls");
                     printf(red "  #### 0     ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
@@ -516,8 +521,8 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                     printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##   ##  ##   ##       ####\n");
                     printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
                     printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
-                    printf("\n                                     Score : %d", state->score);
                     printf(original);
+                    printf("\n                                     Score : %d", state->score);
                     exit(0);
                 }
             }
