@@ -387,12 +387,7 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
         if (isFull) {
             linesCleared += 1;
-            if (linesCleared > 0)
-            {
-                // 播放音效
-                PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
-                PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
-            }
+            
             for (int j = i; j > 0; j--)
             {
                 for (int k = 0; k < CANVAS_WIDTH; k++)
@@ -401,8 +396,12 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
                     resetBlock(&canvas[j - 1][k]);
                 }
             }
-
             
+            if (linesCleared > 0)
+            {
+                // 播放音效
+                PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            }
 
             i++;
         }
@@ -411,18 +410,6 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
     return linesCleared;
 }
-
-/*void print_ascii_art()
-{
-    printf(red "  ####      ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
-    printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
-    printf(red " ##       ##  ##   #######  ##                ##  ##   ##  ##   ##       ##  ##\n");
-    printf(red " ## ###   ######   ## # ##  ####              ##  ##   ##  ##   ####     #####\n");
-    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##   ##  ##   ##       ####\n");
-    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
-    printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
-    printf(original);
-}*/
 
 void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 {
@@ -507,14 +494,14 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                 state->queue[1] = state->queue[2];
                 state->queue[2] = state->queue[3];
                 state->queue[3] = rand() % 7;
-
+  
                 if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
                 {
-                    PlaySound(TEXT("music/to/die_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
+                    PlaySound(TEXT("music/die_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
                     // 播放死掉結束的音效
                     PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
                     system("cls");
-                    printf(red "  #### 0     ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
+                    printf(red "  ####      ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
                     printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
                     printf(red " ##       ##  ##   #######  ##                ##  ##   ##  ##   ##       ##  ##\n");
                     printf(red " ## ###   ######   ## # ##  ####              ##  ##   ##  ##   ####     #####\n");
