@@ -371,11 +371,7 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
     int linesCleared = 0;
 
-    if (linesCleared > 0) {
-        // 播放音效
-        PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
-        PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
-    }
+    
 
 
     for (int i = CANVAS_HEIGHT - 1; i >= 0; i--)
@@ -391,7 +387,11 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
         if (isFull) {
             linesCleared += 1;
-
+            if (linesCleared > 0) {
+                // 播放音效
+                PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_SYNC | SND_FILENAME);
+                PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
+            }
             for (int j = i; j > 0; j--)
             {
                 for (int k = 0; k < CANVAS_WIDTH; k++)
@@ -408,7 +408,7 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
     return linesCleared;
 }
 
-void print_ascii_art()
+/*void print_ascii_art()
 {
     printf(red "  ####      ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
     printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
@@ -418,7 +418,7 @@ void print_ascii_art()
     printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
     printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
     printf(original);
-}
+}*/
 
 void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 {
@@ -449,13 +449,12 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                     }
                 }
             }
-            if (gameOver) {
+            if (gameOver == 1) {
                 break;
             }
         }
 
-        if (gameOver) {
-            print_ascii_art();
+        if (gameOver == 1) {
             return;
         }
         if (ROTATE_FUNC()) {
@@ -482,6 +481,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
         }
         else if (FALL_FUNC()) {
             state->fallTime += FALL_DELAY * CANVAS_HEIGHT;
+            Sleep(20);
         }
 
         state->fallTime += RENDER_DELAY;
@@ -506,7 +506,18 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 
                 if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
                 {
-                    printf("\033[%d;%dH\x1b[41m GAME OVER \x1b[0m\033[%d;%dH", CANVAS_HEIGHT - 3, CANVAS_WIDTH * 2 + 5, CANVAS_HEIGHT + 5, 0);
+                    PlaySound(TEXT("musics/dead_sound.wav"), NULL, SND_SYNC | SND_FILENAME);   // 播放死掉結束的音效
+                    PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
+                    system("cls");
+                    printf(red "  #### 0     ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
+                    printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
+                    printf(red " ##       ##  ##   #######  ##                ##  ##   ##  ##   ##       ##  ##\n");
+                    printf(red " ## ###   ######   ## # ##  ####              ##  ##   ##  ##   ####     #####\n");
+                    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##   ##  ##   ##       ####\n");
+                    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
+                    printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
+                    printf("\n                                     Score : %d", state->score);
+                    printf(original);
                     exit(0);
                 }
             }
