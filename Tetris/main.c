@@ -12,6 +12,7 @@
 #define DOWN_KEY 0x28     // The key to move down, default = 0x28 (down arrow)
 #define FALL_KEY 0x20     // The key to fall, default = 0x20 (spacebar)
 #define PAUSE_KEY 0x50
+#define HOLD_KEY 0x52     // The key to hold, default = 0x52 (R key)
 
 #define FALL_DELAY 500    // The delay between each fall, default = 500
 #define RENDER_DELAY 100  // The delay between each frame, default = 100
@@ -23,6 +24,8 @@
 #define DOWN_FUNC() GetAsyncKeyState(DOWN_KEY) & 0x8000
 #define FALL_FUNC() GetAsyncKeyState(FALL_KEY) & 0x8000
 #define PAUSE_FUNC() GetAsyncKeyState(PAUSE_KEY) & 0x8000
+#define HOLD_FUNC() GetAsyncKeyState(HOLD_KEY) & 0x8000
+
 
 #define CANVAS_WIDTH 10
 #define CANVAS_HEIGHT 20
@@ -69,6 +72,8 @@ typedef struct
     int rotate;
     int fallTime;
     ShapeId queue[4];
+    ShapeId hold;
+    bool holdUsed;
     bool paused;
 }State;
 
@@ -426,6 +431,56 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                 break;
         }
         state->paused = !state->paused;
+    }
+
+    if (state->canHold && HOLD_FUNC())
+    {
+        state->canHold = false;
+
+        // remove the old position
+        ShapeId hold = state->queue[0];
+        Shape shapeData = shapes[hold];
+        int size = shapeData.size;
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (shapeData.rotates[state->rotate][i][j])
+                {
+                    resetBlock(&canvas[state->y + i][state->x + j]);
+                }
+            }
+        }
+
+        // change hold and next block
+        if (state->hold != EMPTY)
+        {
+            state->queue[0] = state->hold;
+            state->hold = hold;
+            resetPos(state);
+        }
+        else
+        {
+            state->hold = state->queue[0];
+            newBlock(state);
+        }
+
+        // show the new block
+        hold = state->queue[0];
+        shapeData = shapes[hold];
+        size = shapeData.size;
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (shapeData.rotates[state->rotate][i][j])
+                {
+                    setBlock(&canvas[state->y + i][state->x + j], shapeData.color, state->queue[0], true);
+                }
+            }
+        }
     }
 
     if (!state->paused) {
