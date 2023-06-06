@@ -15,6 +15,7 @@
 
 #define FALL_DELAY 500    // The delay between each fall, default = 500
 #define RENDER_DELAY 100  // The delay between each frame, default = 100
+#define PAUSE_DELAY 100 // 暫停延遲時間，單位：毫秒
 
 #define LEFT_FUNC() GetAsyncKeyState(LEFT_KEY) & 0x8000
 #define RIGHT_FUNC() GetAsyncKeyState(RIGHT_KEY) & 0x8000
@@ -76,6 +77,7 @@ typedef struct {
     ShapeId shape;
     bool current;
 }Block;
+
 
 Shape shapes[7] = {
     {
@@ -417,6 +419,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 
     if (PAUSE_FUNC())
     {
+        Sleep(PAUSE_DELAY);
         while (true)
         {
             if (PAUSE_FUNC())
@@ -520,8 +523,17 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
     }
 }
 
+void hideConsoleCursor() {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+    cursorInfo.dwSize = 100;
+    cursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &cursorInfo);
+}
+
 int main()
 {
+    hideConsoleCursor();
     srand(time(NULL));
     State state = {
         .x = CANVAS_WIDTH / 2,
