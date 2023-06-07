@@ -16,7 +16,7 @@
 
 #define FALL_DELAY 500    // The delay between each fall, default = 500
 #define RENDER_DELAY 100  // The delay between each frame, default = 100
-#define PAUSE_DELAY 100 // 暫停延遲時間，單位：毫秒
+#define PAUSE_DELAY 100 
 
 #define LEFT_FUNC() GetAsyncKeyState(LEFT_KEY) & 0x8000
 #define RIGHT_FUNC() GetAsyncKeyState(RIGHT_KEY) & 0x8000
@@ -32,7 +32,7 @@
 
 #define MUSIC_STOP NULL 
 
-#define red "\033[0;31m"
+#define red "\x1B[1;31m"
 #define original "\033[m"
 
 typedef enum {
@@ -367,6 +367,92 @@ void printCanvas(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
     return;
 }
 
+void start()
+{
+    printf("\n\n\n                 \033[1m\x1B[0;32m _|                  _|                _|\033[0m\n");
+    printf("               \033[1m\x1B[0;32m _|_|_|_|    _|_|    _|_|_|_|  _|  _|_|        _|_|_|\033[0m\n");
+    printf("                  \033[1m\x1B[0;32m_|      _|_|_|_|    _|      _|_|      _|  _|_|\033[0m\n");
+    printf("                  \033[1m\x1B[0;32m_|      _|          _|      _|        _|      _|_|\033[0m\n");
+    printf("                    \033[1m\x1B[0;32m_|_|    _|_|_|      _|_|  _|        _|  _|_|_|\033[0m\n");
+}
+
+void countdown()
+{
+    start();
+    printf("\n                         \033[1m\033[4mThe game will start in 5 seconds.\033[0m");
+    Sleep(1000);
+    system("cls");
+    start();
+    printf("\n                                        \033[1m\033[4m5\033[0m");
+    Sleep(1000);
+    system("cls");
+    start();
+    printf("\n                                        \033[1m\033[4m4\033[0m");
+    Sleep(1000);
+    system("cls");
+    start();
+    printf("\n                                        \033[1m\033[4m3\033[0m");
+    Sleep(1000);
+    system("cls");
+    start();
+    printf("\n                                        \033[1m\033[4m2\033[0m");
+    Sleep(1000);
+    system("cls");
+    start();
+    printf("\n                                        \033[1m\033[4m1\033[0m");
+    Sleep(1000);
+}
+
+void game_over()
+{
+    system("cls");
+    printf(red "          _____                    _____                    _____                    _____\n");
+    printf(red "         /\\    \\                  /\\    \\                  /\\    \\                  /\\    \\\n");
+    printf(red "        /::\\    \\                /::\\    \\                /::\\____\\                /::\\    \\\n");
+    printf(red "       /::::\\    \\              /::::\\    \\              /::::|   |               /::::\\    \\\n");
+    printf(red "      /::::::\\    \\            /::::::\\    \\            /:::::|   |              /::::::\\    \\\n");
+    printf(red "     /:::/\\:::\\    \\          /:::/\\:::\\    \\          /::::::|   |             /:::/\\:::\\    \\\n");
+    printf(red "    /:::/  \\:::\\    \\        /:::/__\\:::\\    \\        /:::/|::|   |            /:::/__\\:::\\    \\\n");
+    printf(red "   /:::/    \\:::\\    \\      /::::\\   \\:::\\    \\      /:::/ |::|   |           /::::\\   \\:::\\    \\\n");
+    printf(red "  /:::/    / \\:::\\    \\    /::::::\\   \\:::\\    \\    /:::/  |::|___|______    /::::::\\   \\:::\\    \\\n");
+    printf(red " /:::/    /   \\:::\\ ___\\  /:::/\\:::\\   \\:::\\    \\  /:::/   |::::::::\\    \\  /:::/\\:::\\   \\:::\\    \\\n");
+    printf(red "/:::/____/  ___\\:::|    |/:::/  \\:::\\   \\:::\\____\\/:::/    |:::::::::\\____\\/:::/__\\:::\\   \\:::\\____\\\n");
+    printf(red "\\:::\\    \\ /\\  /:::|____|\\::/    \\:::\\  /:::/    /\\::/    / ~~~~~/:::/    /\\:::\\   \\:::\\   \\::/    /\n");
+    printf(red " \\:::\\    /::\\ \\::/    /  \\/____/ \\:::\\/:::/    /  \\/____/      /:::/    /  \\:::\\   \\:::\\   \\/____/\n");
+    printf(red "  \\:::\\   \\:::\\ \\/____/            \\::::::/    /               /:::/    /    \\:::\\   \\:::\\    \\\n");
+    printf(red "   \\:::\\   \\:::\\____\\               \\::::/    /               /:::/    /      \\:::\\   \\:::\\____\\\n");
+    printf(red "    \\:::\\  /:::/    /               /:::/    /               /:::/    /        \\:::\\   \\::/    /\n");
+    printf(red "     \\:::\\/:::/    /               /:::/    /               /:::/    /          \\:::\\   \\/____/\n");
+    printf(red "      \\::::::/    /               /:::/    /               /:::/    /            \\:::\\    \\\n");
+    printf(red "       \\::::/    /               /:::/    /               /:::/    /              \\:::\\____\\\n");
+    printf(red "        \\::/____/                \\::/    /                \\::/    /                \\::/    /\n");
+    printf(red "                                  \\/____/                  \\/____/                  \\/____/\n");
+    Sleep(800);
+    system("cls");
+    printf(red "         _______                   _____                    _____                    _____\n");
+    printf(red "        /::\\    \\                 /\\    \\                  /\\    \\                  /\\    \\\n");
+    printf(red "       /::::\\    \\               /::\\____\\                /::\\    \\                /::\\    \\\n");
+    printf(red "      /::::::\\    \\             /:::/    /               /::::\\    \\              /::::\\    \\\n");
+    printf(red "     /::::::::\\    \\           /:::/    /               /::::::\\    \\            /::::::\\    \\\n");
+    printf(red "    /:::/~~\\:::\\    \\         /:::/    /               /:::/\\:::\\    \\          /:::/\\:::\\    \\\n");
+    printf(red "   /:::/    \\:::\\    \\       /:::/____/               /:::/__\\:::\\    \\        /:::/__\\:::\\    \\\n");
+    printf(red "  /:::/    / \\:::\\    \\      |::|    |               /::::\\   \\:::\\    \\      /::::\\   \\:::\\    \\\n");
+    printf(red " /:::/____/   \\:::\\____\\     |::|    |     _____    /::::::\\   \\:::\\    \\    /::::::\\   \\:::\\    \\\n");
+    printf(red "|:::|    |     |:::|    |    |::|    |    /\\    \\  /:::/\\:::\\   \\:::\\    \\  /:::/\\:::\\   \\:::\\____\\\n");
+    printf(red "|:::|____|     |:::|    |    |::|    |   /::\\____\\/:::/__\\:::\\   \\:::\\____\\/:::/  \\:::\\   \\:::|    |\n");
+    printf(red " \\:::\\    \\   /:::/    /     |::|    |  /:::/    /\\:::\\   \\:::\\   \\::/    /\\::/   |::::\\  /:::|____|\n");
+    printf(red "  \\:::\\    \\ /:::/    /      |::|    | /:::/    /  \\:::\\   \\:::\\   \\/____/  \\/____|:::::\\/:::/    /\n");
+    printf(red "   \\:::\\    /:::/    /       |::|____|/:::/    /    \\:::\\   \\:::\\    \\            |:::::::::/    /\n");
+    printf(red "    \\:::\\__/:::/    /        |:::::::::::/    /      \\:::\\   \\:::\\____\\           |::|\\::::/    /\n");
+    printf(red "     \\::::::::/    /         \\::::::::::/____/        \\:::\\   \\::/    /           |::| \\::/____/\n");
+    printf(red "      \\::::::/    /           ~~~~~~~~~~               \\:::\\   \\/____/            |::|   |\n");
+    printf(red "       \\::::/    /                                      \\:::\\    \\                |::|   |\n");
+    printf(red "        \\::/____/                                        \\:::\\____\\               \\::|   |\n");
+    printf(red "                                                          \\::/    /                \\:|   |\n");
+    printf(red "                                                           \\/____/                  \\|___|\n");
+    printf(original);
+}
+
 int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
     for (int i = 0; i < CANVAS_HEIGHT; i++) {
         for (int j = 0; j < CANVAS_WIDTH; j++) {
@@ -377,8 +463,6 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
     }
 
     int linesCleared = 0;
-
-    
 
 
     for (int i = CANVAS_HEIGHT - 1; i >= 0; i--)
@@ -406,7 +490,6 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
             
             if (linesCleared > 0)
             {
-                // 播放音效
                 PlaySound(TEXT("music/eliminate_sound.wav"), NULL, SND_FILENAME | SND_ASYNC);
             }
 
@@ -433,56 +516,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
         state->paused = !state->paused;
     }
 
-    if (state->canHold && HOLD_FUNC())
-    {
-        state->canHold = false;
-
-        // remove the old position
-        ShapeId hold = state->queue[0];
-        Shape shapeData = shapes[hold];
-        int size = shapeData.size;
-
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                if (shapeData.rotates[state->rotate][i][j])
-                {
-                    resetBlock(&canvas[state->y + i][state->x + j]);
-                }
-            }
-        }
-
-        // change hold and next block
-        if (state->hold != EMPTY)
-        {
-            state->queue[0] = state->hold;
-            state->hold = hold;
-            resetPos(state);
-        }
-        else
-        {
-            state->hold = state->queue[0];
-            newBlock(state);
-        }
-
-        // show the new block
-        hold = state->queue[0];
-        shapeData = shapes[hold];
-        size = shapeData.size;
-
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                if (shapeData.rotates[state->rotate][i][j])
-                {
-                    setBlock(&canvas[state->y + i][state->x + j], shapeData.color, state->queue[0], true);
-                }
-            }
-        }
-    }
-
+    
     if (!state->paused) {
         Shape shapeData = shapes[state->queue[0]];
         for (int i = 0; i < shapeData.size; i++) {
@@ -530,7 +564,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
         }
         else if (FALL_FUNC()) {
             state->fallTime += FALL_DELAY * CANVAS_HEIGHT;
-            Sleep(20);
+            Sleep(25);
         }
 
         state->fallTime += RENDER_DELAY;
@@ -556,23 +590,14 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                 if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
                 {
                     PlaySound(TEXT("music/die_sound.wav"), NULL, SND_FILENAME | SND_SYNC);
-                    // 播放死掉結束的音效
                     PlaySound(MUSIC_STOP, NULL, SND_FILENAME);
-                    system("cls");
-                    printf(red "  ####      ##     ##   ##  ######             ####    ##  ##   ######   #####\n");
-                    printf(red " ##  ##    ####    ### ###  ##                ##  ##   ##  ##   ##       ##  ##\n");
-                    printf(red " ##       ##  ##   #######  ##                ##  ##   ##  ##   ##       ##  ##\n");
-                    printf(red " ## ###   ######   ## # ##  ####              ##  ##   ##  ##   ####     #####\n");
-                    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##   ##  ##   ##       ####\n");
-                    printf(red " ##  ##   ##  ##   ##   ##  ##                ##  ##     ###    ##       ## ##\n");
-                    printf(red "  ####    ##  ##   ##   ##  ######             ####      ##     ######   ##  ##\n");
-                    printf(original);
-                    printf("\n                                     Score : %d", state->score);
+                    game_over();
+                    printf("\n                                          YOUR SCORE : %d", state->score);
                     exit(0);
                 }
             }
         }
-        printf("\033[%d;%dHScore: %d", CANVAS_HEIGHT + 2, CANVAS_WIDTH * 2 + 5, state->score);
+        printf("\n\n\033[%d;%dHScore : %d", CANVAS_HEIGHT + 2, CANVAS_WIDTH * 2 + 5, state->score);
         printCanvas(canvas, state);
         return;
     }
@@ -612,8 +637,8 @@ int main()
         }
     }
 
+    countdown();
     system("cls");
-    // printf("\e[?25l"); // hide cursor
 
     move(canvas, state.x, state.y, state.rotate, state.x, state.y, state.rotate, state.queue[0]);
 
